@@ -8,6 +8,6 @@ export const authenticate = async (mode, email, password) => {
     password,
     returnSecureToken: true,
   });
-  const token = response.data.idToken;
-  return token;
+  // const token = response.data.idToken;
+  return response.data;
 };
