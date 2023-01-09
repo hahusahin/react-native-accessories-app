@@ -35,13 +35,7 @@ const LoginForm = ({ setIsLogin, onAuthenticate }) => {
       />
       <Button
         style={{ backgroundColor: "#0d6efd" }}
-        onPress={() =>
-          onAuthenticate(
-            "signInWithPassword",
-            formValues.email,
-            formValues.password
-          )
-        }
+        onPress={() => onAuthenticate("signInWithPassword", formValues)}
       >
         <Text style={styles.buttonText}>Login</Text>
       </Button>

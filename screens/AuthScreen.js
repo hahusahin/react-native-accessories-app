@@ -1,38 +1,40 @@
 import { View, StyleSheet, Modal, Text, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { authenticate } from "../api/networkRequests";
 import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../store/ui-slice";
 import { authActions } from "../store/auth-slice";
-import { useNavigation } from "@react-navigation/native";
 
-const AuthScreen = () => {
+const AuthScreen = ({ navigation }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
 
-  const navigation = useNavigation()
   const showModal = useSelector((state) => state.ui.isModalShown);
   const dispatch = useDispatch();
 
-  const submitHandler = async (mode, email, password) => {
+  const submitHandler = async (mode, formValues) => {
     try {
       setLoading(true);
       dispatch(uiActions.showModal());
-      const data = await authenticate(mode, email, password);
-      if (data && data.idToken && data.localId) {
+      const { userId, token } = await authenticate(mode, formValues);
+      if (userId && token) {
         setLoading(false);
         dispatch(uiActions.hideModal());
-        dispatch(authActions.login({ token: data.idToken, userId: data.localId }));
-        navigation.replace("Products")
+        dispatch(authActions.login({ token, userId }));
+        navigation.replace("Products");
       }
     } catch (error) {
       setError(true);
       setLoading(false);
     }
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({ title: isLogin ? "Login" : "Sign Up" });
+  }, [isLogin]);
 
   return (
     <View style={styles.container}>

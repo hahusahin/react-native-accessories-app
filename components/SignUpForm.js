@@ -95,7 +95,7 @@ const SignUpForm = ({ setIsLogin, onAuthenticate }) => {
       <Button
         style={{ backgroundColor: "#0d6efd" }}
         onPress={() =>
-          onAuthenticate("signUp", formValues.email, formValues.password)
+          onAuthenticate("signUp", formValues)
         }
       >
         <Text style={styles.buttonText}>Sign Up</Text>

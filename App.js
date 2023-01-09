@@ -15,16 +15,15 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeStack = () => {
-  <Stack.Navigator>
-    <Stack.Screen name="Home" component={ProductsScreen} />
-    <Stack.Screen name="ProductDetail" component={ProductDetailsScreen} />
-  </Stack.Navigator>;
-  return;
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={ProductsScreen} />
+      <Stack.Screen name="ProductDetail" component={ProductDetailsScreen} />
+    </Stack.Navigator>
+  );
 };
 
 const GuestTabs = () => {
-  const token = useSelector((state) => state.auth.token);
-
   return (
     <Tab.Navigator
       screenOptions={({ navigation }) => ({
@@ -40,7 +39,7 @@ const GuestTabs = () => {
         options={{
           title: "Products",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+            <Ionicons name="laptop-outline" size={size} color={color} />
           ),
         }}
       />
@@ -84,7 +83,7 @@ const LoggedInTabs = () => {
         options={{
           title: "Products",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+            <Ionicons name="laptop-outline" size={size} color={color} />
           ),
         }}
       />
