@@ -1,18 +1,35 @@
+import { useFocusEffect } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { View, FlatList, StyleSheet, ActivityIndicator } from "react-native";
 import { getAllProducts } from "../api/networkRequests";
 import ProductItem from "../components/ProductItem";
 
-const ProductsScreen = () => {
+const ProductsScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const getProducts = async () => {
-      const data = await getAllProducts();
-      setProducts(data);
+      try {
+        const data = await getAllProducts();
+        setProducts(data);
+        setLoading(false);
+      } catch (error) {}
     };
     getProducts();
   }, []);
+
+  useFocusEffect(() => {
+    navigation.getParent().setOptions({ title: "Products" });
+  });
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="red" />
+      </View>
+    );
+  }
 
   return (
     <>
@@ -29,3 +46,10 @@ const ProductsScreen = () => {
 };
 
 export default ProductsScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+});

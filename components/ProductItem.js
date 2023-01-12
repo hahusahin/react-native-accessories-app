@@ -1,15 +1,21 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Button from "../ui/Button";
+import { useNavigation } from "@react-navigation/native";
 
-const ProductItem = ({ imageUrl, name, price }) => {
+const ProductItem = ({ id, imageUrl, name, price }) => {
+  const navigation = useNavigation();
   return (
-    <Pressable style={({ pressed }) => pressed && styles.pressed}>
+    <Pressable
+      style={({ pressed }) => pressed && styles.pressed}
+      onPress={() => navigation.navigate("ProductDetail", { id })}
+    >
       <View style={styles.item}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: imageUrl }} style={styles.image} />
         </View>
         <Text style={styles.itemName}>{name}</Text>
+        <Text style={styles.itemPrice}>{"$ " + price}</Text>
         <View style={styles.buttonContainer}>
           <Button style={styles.button}>
             <Text style={styles.buttonText}>Add To Cart</Text>
@@ -45,6 +51,13 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 18,
     textAlign: "center",
+    marginBottom: 8,
+  },
+  itemPrice: {
+    fontSize: 18,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#dd5100",
   },
   buttonContainer: {
     alignItems: "center",

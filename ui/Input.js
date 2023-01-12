@@ -8,19 +8,28 @@ const Input = ({
   value,
   keyboardType,
   secureTextEntry,
+  placeholder,
+  multiline,
+  numberOfLines,
+  style,
 }) => {
   return (
-    <View style={styles.inputContainer}>
-      <Text style={styles.label}>
-        {label}
-        {required && <Text style={styles.required}>{" * "}</Text>}
-      </Text>
+    <View style={[styles.inputContainer, style]}>
+      {label && (
+        <Text style={styles.label}>
+          {label}
+          {required && <Text style={styles.required}>{" * "}</Text>}
+        </Text>
+      )}
       <TextInput
         style={[styles.input]}
         onChangeText={onChange}
         value={value}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
+        placeholder={placeholder}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
       />
     </View>
   );
