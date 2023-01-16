@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import ReviewForm from "./ReviewForm";
 import { useNavigation } from "@react-navigation/native";
 
-const Reviews = ({ reviews, productId, rating }) => {
+const Reviews = ({ reviews, productId, rating, setLoading, onReload }) => {
   const navigation = useNavigation();
   const [showForm, setShowForm] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -27,34 +27,40 @@ const Reviews = ({ reviews, productId, rating }) => {
   };
   return (
     <>
-      {reviews && reviews.length > 0 && (
-        <>
-          <Text style={styles.title}>Product Reviews</Text>
-          {reviews.map((review, i) => (
-            <ReviewItem key={"review__" + i} {...review} />
-          ))}
-          {!showForm && !showWarning && (
-            <View style={styles.buttonContainer}>
-              <Button style={styles.cartBtn} onPress={pressHandler}>
-                <Text style={styles.cartBtnText}>Review Product</Text>
-              </Button>
-            </View>
-          )}
-          {showWarning && (
-            <View style={[styles.buttonContainer, { marginTop: 12 }]}>
-              <Text style={styles.cartBtnText}>
-                You should be logged in to make a review.
-              </Text>
-              <Button
-                style={[styles.cartBtn, { backgroundColor: "red" }]}
-                onPress={() => navigation.navigate("Auth")}
-              >
-                <Text style={styles.cartBtnText}>Login</Text>
-              </Button>
-            </View>
-          )}
-          {showForm && <ReviewForm productInfo={productInfo} />}
-        </>
+      <Text style={styles.title}>Product Reviews</Text>
+      {reviews && reviews.length > 0 ? (
+        reviews.map((review, i) => (
+          <ReviewItem key={"review__" + i} {...review} />
+        ))
+      ) : (
+        <Text style={styles.noReviewsText}>No Reviews Yet</Text>
+      )}
+      {!showForm && !showWarning && (
+        <View style={styles.buttonContainer}>
+          <Button style={styles.cartBtn} onPress={pressHandler}>
+            <Text style={styles.cartBtnText}>Review Product</Text>
+          </Button>
+        </View>
+      )}
+      {showWarning && (
+        <View style={[styles.buttonContainer, { marginTop: 12 }]}>
+          <Text style={styles.cartBtnText}>
+            You should be logged in to make a review.
+          </Text>
+          <Button
+            style={[styles.cartBtn, { backgroundColor: "red" }]}
+            onPress={() => navigation.navigate("Auth", { productId })}
+          >
+            <Text style={styles.cartBtnText}>Login</Text>
+          </Button>
+        </View>
+      )}
+      {showForm && (
+        <ReviewForm
+          productInfo={productInfo}
+          setLoading={setLoading}
+          reloadScreen={onReload}
+        />
       )}
     </>
   );
@@ -83,5 +89,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     fontSize: 16,
+  },
+  noReviewsText: {
+    textAlign: "center",
+    color: "#EAE0DA",
+    fontSize: 18,
   },
 });

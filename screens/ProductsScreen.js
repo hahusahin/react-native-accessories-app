@@ -20,7 +20,7 @@ const ProductsScreen = ({ navigation }) => {
   }, []);
 
   useFocusEffect(() => {
-    navigation.getParent().setOptions({ title: "Products" });
+    navigation.getParent().setOptions({ title: "Products", headerLeft: null });
   });
 
   if (loading) {

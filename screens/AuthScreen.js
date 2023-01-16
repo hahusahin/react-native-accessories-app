@@ -7,10 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../store/ui-slice";
 import { authActions } from "../store/auth-slice";
 
-const AuthScreen = ({ navigation }) => {
+const AuthScreen = ({ navigation, route }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
+
+  const productId = route.params?.productId;
 
   const showModal = useSelector((state) => state.ui.isModalShown);
   const dispatch = useDispatch();
@@ -24,7 +26,14 @@ const AuthScreen = ({ navigation }) => {
         setLoading(false);
         dispatch(uiActions.hideModal());
         dispatch(authActions.login({ token, userId }));
-        navigation.replace("Products");
+        if (productId) {
+          navigation.navigate("Products", {
+            screen: "ProductDetail",
+            params: { id: productId },
+          });
+        } else {
+          navigation.replace("Products");
+        }
       }
     } catch (error) {
       setError(true);

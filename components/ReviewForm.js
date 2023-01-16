@@ -5,23 +5,30 @@ import Button from "../ui/Button";
 import { Ionicons } from "@expo/vector-icons";
 import { sendReviewAndUpdateRating } from "../api/networkRequests";
 
-const ReviewForm = ({ productInfo }) => {
+const ReviewForm = ({ productInfo, setLoading, reloadScreen }) => {
   const [name, setName] = useState();
   const [review, setReview] = useState();
   const [rating, setRating] = useState(0);
   const { productId, currentRating, numOfReviews } = productInfo;
 
   const submitHandler = async () => {
-    const selectedRating = rating === 0 ? 1 : rating;
-    const reviewData = { name: name, rating: selectedRating, review: review };
-    const newRating =
-      (numOfReviews * currentRating + selectedRating) / (numOfReviews + 1);
+    try {
+      setLoading(true);
+      const selectedRating = rating === 0 ? 1 : rating;
+      const reviewData = { name: name, rating: selectedRating, review: review };
+      const newRating =
+        (numOfReviews * currentRating + selectedRating) / (numOfReviews + 1);
 
-    // await sendReviewAndUpdateRating({
-    //   productId,
-    //   reviewData,
-    //   rating: newRating,
-    // });
+      await sendReviewAndUpdateRating({
+        productId,
+        reviewData,
+        rating: newRating,
+      });
+      reloadScreen();
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
   };
 
   return (

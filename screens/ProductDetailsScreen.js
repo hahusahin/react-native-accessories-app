@@ -4,6 +4,7 @@ import ProductDetail from "../components/ProductDetail";
 import { getProductDetails } from "../api/networkRequests";
 import { useRoute } from "@react-navigation/native";
 import Reviews from "../components/Reviews";
+import { Ionicons } from "@expo/vector-icons";
 
 const ProductDetailsScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -12,19 +13,34 @@ const ProductDetailsScreen = ({ navigation }) => {
   const route = useRoute();
   const { id } = route.params;
 
+  const getDetails = async () => {
+    try {
+      setLoading(true);
+      const data = await getProductDetails(id);
+      setData(data);
+      setLoading(false);
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    const productDetails = async () => {
-      try {
-        const data = await getProductDetails(id);
-        setData(data);
-        setLoading(false);
-      } catch (error) {}
-    };
-    productDetails();
+    getDetails();
   }, []);
 
   useLayoutEffect(() => {
-    navigation.getParent().setOptions({ title: "Product Details" });
+    navigation
+      .getParent()
+      .setOptions({
+        title: "Product Details",
+        headerLeft: ({ tintColor }) => (
+          <Ionicons
+            name="arrow-back-outline"
+            size={24}
+            color={tintColor}
+            style={{ marginLeft: 12 }}
+            onPress={() => navigation.goBack()}
+          />
+        ),
+      });
   }, []);
 
   if (loading) {
@@ -42,6 +58,8 @@ const ProductDetailsScreen = ({ navigation }) => {
         reviews={data?.productReviews}
         productId={id}
         rating={data?.productInfo?.rating}
+        onReload={getDetails}
+        setLoading={setLoading}
       />
     </ScrollView>
   );
