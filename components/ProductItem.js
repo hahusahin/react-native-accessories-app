@@ -2,9 +2,23 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Button from "../ui/Button";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../store/cart-slice";
+import Toast from "react-native-root-toast";
 
 const ProductItem = ({ id, imageUrl, name, price }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const addToCartHandler = () => {
+    dispatch(cartActions.addItem({ id, imageUrl, name, price }));
+    Toast.show(`${name} is added to cart`, {
+      duration: Toast.durations.SHORT,
+      backgroundColor: "#FFFFFF",
+      textColor: "#1f1e1e",
+    });
+  };
+
   return (
     <Pressable
       style={({ pressed }) => pressed && styles.pressed}
@@ -17,7 +31,7 @@ const ProductItem = ({ id, imageUrl, name, price }) => {
         <Text style={styles.itemName}>{name}</Text>
         <Text style={styles.itemPrice}>{"$ " + price}</Text>
         <View style={styles.buttonContainer}>
-          <Button style={styles.button}>
+          <Button style={styles.button} onPress={addToCartHandler}>
             <Text style={styles.buttonText}>Add To Cart</Text>
           </Button>
         </View>

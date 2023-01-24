@@ -1,3 +1,4 @@
+import { RootSiblingParent } from "react-native-root-siblings";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -130,9 +131,11 @@ const Root = () => {
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <StatusBar style="light" />
-      <Root />
-    </Provider>
+    <RootSiblingParent>
+      <Provider store={store}>
+        <StatusBar style="light" />
+        <Root />
+      </Provider>
+    </RootSiblingParent>
   );
 }
