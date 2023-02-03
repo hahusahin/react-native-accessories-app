@@ -3,19 +3,16 @@ import React from "react";
 import { useSelector } from "react-redux";
 import CartItem from "../components/CartItem";
 import Button from "../ui/Button";
-import { useState } from "react";
-import OrderForm from "../components/OrderForm";
+import { useNavigation } from "@react-navigation/native";
 
 const ShoppingCartScreen = () => {
-  const [showForm, setShowForm] = useState(false);
-
   const cartItems = useSelector((state) => state.cart.items);
   const totalPrice = cartItems.reduce((acc, curr) => acc + curr.totalPrice, 0);
-
+  const navigation = useNavigation()
   return (
-    <ScrollView>
+    <>
       {cartItems && cartItems.length > 0 ? (
-        <View>
+        <ScrollView>
           <Text style={styles.title}>Your Shopping Cart</Text>
           {cartItems.map((item) => (
             <CartItem key={item.id} item={item} />
@@ -23,30 +20,28 @@ const ShoppingCartScreen = () => {
           <Text style={styles.title}>
             Total Price: {`$ ${totalPrice.toFixed(2)}`}
           </Text>
-          {!showForm && (
-            <View style={styles.buttonContainer}>
-              <Button style={styles.cartBtn} onPress={() => setShowForm(true)}>
-                <Text style={styles.cartBtnText}>Proceed To Checkout</Text>
-              </Button>
-            </View>
-          )}
-          {showForm && (
-            <OrderForm
-            // onConfirm={placeOrderHandler}
-            // onCancel={closeFormHandler}
-            />
-          )}
-        </View>
+          <View style={styles.buttonContainer}>
+            <Button style={styles.cartBtn} onPress={() => navigation.navigate("OrderForm")}>
+              <Text style={styles.cartBtnText}>Proceed To Checkout</Text>
+            </Button>
+          </View>
+        </ScrollView>
       ) : (
-        <Text style={styles.title}>Your Shopping Cart Is Empty</Text>
+        <View style={styles.fullheightContainer}>
+          <Text style={styles.title}>Your Shopping Cart Is Empty</Text>
+        </View>
       )}
-    </ScrollView>
+    </>
   );
 };
-
 export default ShoppingCartScreen;
 
 const styles = StyleSheet.create({
+  fullheightContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",

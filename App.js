@@ -8,6 +8,7 @@ import ProductDetailsScreen from "./screens/ProductDetailsScreen";
 import ShoppingCartScreen from "./screens/ShoppingCartScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import AuthScreen from "./screens/AuthScreen";
+import OrderFormScreen from "./screens/OrderFormScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { Provider, useSelector } from "react-redux";
 import store from "./store";
@@ -20,6 +21,15 @@ const HomeStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={ProductsScreen} />
       <Stack.Screen name="ProductDetail" component={ProductDetailsScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const CartStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
+      <Stack.Screen name="OrderForm" component={OrderFormScreen} />
     </Stack.Navigator>
   );
 };
@@ -56,7 +66,7 @@ const GuestTabs = () => {
       />
       <Tab.Screen
         name="Cart"
-        component={ShoppingCartScreen}
+        component={CartStack}
         options={{
           title: "Cart",
           tabBarIcon: ({ color, size }) => (

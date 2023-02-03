@@ -72,3 +72,8 @@ export const sendReviewAndUpdateRating = async (data) => {
   ]);
   return null;
 };
+
+export const sendOrder = async (orderData) => {
+  await axios.post(`${FIREBASE_API_URL}/orders.json`, orderData)
+  return null;
+}
