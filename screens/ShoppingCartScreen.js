@@ -8,20 +8,26 @@ import { useNavigation } from "@react-navigation/native";
 const ShoppingCartScreen = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const totalPrice = cartItems.reduce((acc, curr) => acc + curr.totalPrice, 0);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
   return (
     <>
       {cartItems && cartItems.length > 0 ? (
         <ScrollView>
           <Text style={styles.title}>Your Shopping Cart</Text>
-          {cartItems.map((item) => (
-            <CartItem key={item.id} item={item} />
+          {cartItems.map((item, i) => (
+            <CartItem key={`cartItem__${i}`} item={item} />
           ))}
           <Text style={styles.title}>
             Total Price: {`$ ${totalPrice.toFixed(2)}`}
           </Text>
           <View style={styles.buttonContainer}>
-            <Button style={styles.cartBtn} onPress={() => navigation.navigate("OrderForm")}>
+            <Button
+              style={styles.cartBtn}
+              onPress={() => {
+                navigation.navigate("Cart", { screen: "OrderForm" });
+              }}
+            >
               <Text style={styles.cartBtnText}>Proceed To Checkout</Text>
             </Button>
           </View>

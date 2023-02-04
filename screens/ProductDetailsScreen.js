@@ -53,7 +53,7 @@ const ProductDetailsScreen = ({ navigation }) => {
 
   return (
     <ScrollView>
-      <ProductDetail data={data?.productInfo} />
+      <ProductDetail data={{...data?.productInfo, id}} />
       <Reviews
         reviews={data?.productReviews}
         productId={id}

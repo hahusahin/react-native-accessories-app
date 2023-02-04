@@ -7,10 +7,23 @@ import {
 } from "react-native";
 import React from "react";
 import Button from "../ui/Button";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../store/cart-slice";
+import Toast from "react-native-root-toast";
 
 const ProductDetail = ({ data }) => {
   const { imageUrl, about, name, price, rating } = data;
   const { width, height } = useWindowDimensions();
+  const dispatch = useDispatch();
+
+  const addToCartHandler = () => {
+    dispatch(cartActions.addItem(data));
+    Toast.show(`${name} is added to cart`, {
+      duration: Toast.durations.SHORT,
+      backgroundColor: "#FFFFFF",
+      textColor: "#1f1e1e",
+    });
+  };
 
   return (
     <View>
@@ -21,7 +34,9 @@ const ProductDetail = ({ data }) => {
         />
       </View>
       <Text style={styles.itemName}>{name}</Text>
-      <Text style={styles.rating}>{`User Rating: ${rating.toFixed(2)} / 5`}</Text>
+      <Text style={styles.rating}>{`User Rating: ${rating.toFixed(
+        2
+      )} / 5`}</Text>
       <Text style={styles.price}>{"$ " + price}</Text>
       <View>
         {about?.split("'\n'")?.map((item, i) => (
@@ -32,7 +47,7 @@ const ProductDetail = ({ data }) => {
         ))}
       </View>
       <View style={styles.buttonContainer}>
-        <Button style={styles.cartBtn}>
+        <Button style={styles.cartBtn} onPress={addToCartHandler}>
           <Text style={styles.cartBtnText}>Add To Cart</Text>
         </Button>
       </View>

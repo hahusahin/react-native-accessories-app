@@ -10,7 +10,7 @@ import React from "react";
 import { useState } from "react";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import { useNavigation, CommonActions } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { sendOrder } from "../api/networkRequests";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../store/ui-slice";
