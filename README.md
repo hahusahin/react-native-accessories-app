@@ -1,7 +1,7 @@
 # React Native Mobile E-commerce Demo App 
 
 ## Video Link of Demo App
-<h3> https://www.youtube.com/watch?v=2mYOQdDIGrk </h3>
+<h4> https://youtu.be/fQlxkKzoVPE </h4>
 
 ## About This Project
  * In this project, I've tried to crate a simple e-commerce mobile app with React-native.
