@@ -5,6 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth-slice";
 import { getUserDetails } from "../api/networkRequests";
 
+const TableRow = ({ title, value }) => (
+  <View style={styles.userField}>
+    <View style={{ width: 120 }}>
+      <Text style={styles.userInfoText}>{title}:</Text>
+    </View>
+    <View style={{ width: 180 }}>
+      <Text style={styles.userInfoText}>{value}</Text>
+    </View>
+  </View>
+);
+
 const ProfileScreen = () => {
   const [user, setUser] = useState();
 
@@ -27,34 +38,15 @@ const ProfileScreen = () => {
     <View style={styles.container}>
       {user && (
         <>
-          <View style={styles.userField}>
-            <View style={{ width: 120 }}>
-              <Text style={styles.userInfoText}>First Name:</Text>
-            </View>
-            <View style={{ width: 120 }}>
-              <Text style={styles.userInfoText}>{user.firstName}</Text>
-            </View>
-          </View>
-          <View style={styles.userField}>
-            <View style={{ width: 120 }}>
-              <Text style={styles.userInfoText}>Last Name:</Text>
-            </View>
-            <View style={{ width: 120 }}>
-              <Text style={styles.userInfoText}>
-                {user.lastName ? user.lastName : "-"}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.userField}>
-            <View style={{ width: 120 }}>
-              <Text style={styles.userInfoText}>City:</Text>
-            </View>
-            <View style={{ width: 120 }}>
-              <Text style={styles.userInfoText}>
-                {user.city ? user.city : "-"}
-              </Text>
-            </View>
-          </View>
+          <TableRow title="First Name" value={user.firstName} />
+          <TableRow
+            title="Last Name"
+            value={user.lastName ? user.lastName : "-"}
+          />
+          <TableRow title="Email" value={user.email ? user.email : "-"} />
+          <TableRow title="City" value={user.city ? user.city : "-"} />
+          <TableRow title="Zipcode" value={user.zipcode ? user.zipcode : "-"} />
+          <TableRow title="Address" value={user.address ? user.address : "-"} />
         </>
       )}
       <Button style={styles.button} onPress={logoutHandler}>

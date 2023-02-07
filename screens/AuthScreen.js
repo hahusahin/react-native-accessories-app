@@ -26,14 +26,14 @@ const AuthScreen = ({ navigation, route }) => {
         setLoading(false);
         dispatch(uiActions.hideModal());
         dispatch(authActions.login({ token, userId }));
-        if (productId) {
-          navigation.navigate("Products", {
-            screen: "ProductDetail",
-            params: { id: productId },
-          });
-        } else {
-          navigation.replace("Products");
-        }
+        // if (productId) {
+        //   navigation.navigate("Products", {
+        //     screen: "ProductDetail",
+        //     params: { id: productId },
+        //   });
+        // } else {
+        //   navigation.replace("Products");
+        // }
       }
     } catch (error) {
       setError(true);

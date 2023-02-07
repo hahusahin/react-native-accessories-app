@@ -13,6 +13,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { Provider, useSelector } from "react-redux";
 import store from "./store";
 
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "#282a36",
+  },
+};
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -34,107 +42,66 @@ const CartStack = () => {
   );
 };
 
-const GuestTabs = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={({ navigation }) => ({
-        headerStyle: { backgroundColor: "#212529" },
-        headerTintColor: "white",
-        tabBarStyle: { backgroundColor: "#212529" },
-        tabBarActiveTintColor: "#c6affc",
-      })}
-    >
-      <Tab.Screen
-        name="Products"
-        component={HomeStack}
-        options={{
-          title: "Products",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="laptop-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Auth"
-        component={AuthScreen}
-        options={{
-          title: "Login",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="log-in-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Cart"
-        component={CartStack}
-        options={{
-          title: "Cart",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cart-outline" size={size} color={color} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
-
-const LoggedInTabs = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={({ navigation }) => ({
-        headerStyle: { backgroundColor: "#212529" },
-        headerTintColor: "white",
-        tabBarStyle: { backgroundColor: "#212529" },
-        tabBarActiveTintColor: "#c6affc",
-      })}
-    >
-      <Tab.Screen
-        name="Products"
-        component={HomeStack}
-        options={{
-          title: "Products",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="laptop-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Cart"
-        component={ShoppingCartScreen}
-        options={{
-          title: "Cart",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cart-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
-
-const MyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: "#282a36",
-  },
-};
-
 const Root = () => {
   const token = useSelector((state) => state.auth.token);
   return (
     <NavigationContainer theme={MyTheme}>
-      {token ? <LoggedInTabs /> : <GuestTabs />}
+      <Tab.Navigator
+        screenOptions={({ navigation }) => ({
+          headerStyle: { backgroundColor: "#212529" },
+          headerTintColor: "white",
+          tabBarStyle: { backgroundColor: "#212529" },
+          tabBarActiveTintColor: "#c6affc",
+        })}
+      >
+        <Tab.Group navigationKey={token ? "user" : "guest"}>
+          <Tab.Screen
+            name="Products"
+            component={HomeStack}
+            options={{
+              title: "Products",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="laptop-outline" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Cart"
+            component={CartStack}
+            options={{
+              title: "Cart",
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="cart-outline" size={size} color={color} />
+              ),
+            }}
+          />
+        </Tab.Group>
+        <>
+          {token ? (
+            <Tab.Screen
+              name="Profile"
+              component={ProfileScreen}
+              options={{
+                title: "Profile",
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="person-outline" size={size} color={color} />
+                ),
+              }}
+            />
+          ) : (
+            <Tab.Screen
+              name="Auth"
+              component={AuthScreen}
+              options={{
+                title: "Login",
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="log-in-outline" size={size} color={color} />
+                ),
+              }}
+            />
+          )}
+        </>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
