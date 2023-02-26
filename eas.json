@@ -1,0 +1,37 @@
+{
+  "cli": {
+    "version": ">= 3.5.2"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    },
+    "preview": {
+      "env": {
+        "FIREBASE_API_URL": "https://react-redux-products-5b75d-default-rtdb.firebaseio.com"
+      },
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    },
+    "production": {
+      "env": {
+        "FIREBASE_API_URL": "https://react-redux-products-5b75d-default-rtdb.firebaseio.com"
+      },
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

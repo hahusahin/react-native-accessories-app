@@ -1,5 +1,8 @@
 import axios from "axios";
-import { FIREBASE_API_KEY, FIREBASE_API_URL } from "@env";
+import Constants from "expo-constants";
+
+const FIREBASE_API_URL = Constants.expoConfig.extra.FIREBASE_API_URL;
+const FIREBASE_API_KEY = Constants.expoConfig.extra.FIREBASE_API_KEY;
 
 export const authenticate = async (mode, formValues) => {
   try {
@@ -74,6 +77,6 @@ export const sendReviewAndUpdateRating = async (data) => {
 };
 
 export const sendOrder = async (orderData) => {
-  await axios.post(`${FIREBASE_API_URL}/orders.json`, orderData)
+  await axios.post(`${FIREBASE_API_URL}/orders.json`, orderData);
   return null;
-}
+};
