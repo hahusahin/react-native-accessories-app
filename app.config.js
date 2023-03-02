@@ -1,6 +1,6 @@
 export default {
   expo: {
-    name: "11_RN_TechAccesories",
+    name: "RN Tech Accesories",
     slug: "tech-accessories-e-commerce-app",
     version: "1.0.0",
     orientation: "portrait",
